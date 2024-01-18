@@ -1,0 +1,147 @@
+1. Write a SAS program to define a variable, naming the data set, creating new variables
+   and entering the data [In one program only]
+
+data class;
+input fname $  lname $ class $;
+cards;
+John Doe STAT100
+Liz Hick HIST200
+Dave Higgs ECON100
+AMY WRIGHT STAT200
+Mary Lovel HIST300
+JASON Powel ECON400
+Chris Ryan HIST100
+Peter Paul ECON400
+;
+run;
+
+
+data class1;
+	set class;
+	ufname=upcase(fname);
+	lfname=lowcase(fname);
+
+	plname=propcase(lname);
+
+	lenlname=length(lname);
+
+	fullname=cat(fname,lname);
+run;
+   
+
+2. Define the function of following      
+   a. RUN statement:-The RUN statement executes previously entered DATA or PROC steps.
+   b. DATA Step:-The DATA step provides maximum flexibility for creating highly customized reports.
+   c. PROC Step:-PROC SQL has the capability to produce basic line-oriented reports.
+   
+3. Write a SAS program to calculate student’s percentage.
+
+Data Students;
+input RollNo Name $ Science Math English Hindi Computer;
+cards;
+101 Manish 78 65 83 90 86
+102 Monish 89 56 89 98 97
+103 Anish  90 80 65 78 80
+104 Aman   97 78 86 98 76
+105 Manav  65 78 87 98 96
+run;
+
+Data Student1;
+set work.Students;
+
+Percentage = (sum(Science,Math,English,Hindi,Computer)/150)*100;
+run;
+
+Proc print data=Students;
+run;
+
+4. Briefly explain the Input and Put function.
+
+The PUT function takes character or numeric variables as input and always outputs character variables.
+
+The INPUT function only takes character variables as input and can output character or numeric variables.
+
+5. What is the difference between PROC MEANS and PROC SUMMARY?
+
+Output options: PROC MEANS provides more output options than PROC SUMMARY, including the capability to calculate standard deviation, skewness, and kurtosis. PROC MEANS can also produce more detailed output, such as the minimum and maximum values for each variable.
+Handling missing values: PROC MEANS excludes missing values by default, while PROC SUMMARY includes them in the calculations. However, both procedures allow you to specify how to handle missing values using the MISSING option.
+Default statistics: PROC MEANS calculates the mean, standard deviation, minimum, maximum, and number of non-missing observations by default, while PROC SUMMARY calculates only the sum and number of non-missing observations by default. However, you can specify which statistics to calculate using the VAR statement in both procedures.
+Class variables: PROC SUMMARY can handle both class and analysis variables, while PROC MEANS can only handle analysis variables. Class variables are used to group the data and calculate the statistics for each group.
+
+6. What do you mean by the sum function and "+" operator?
+
+The SUM function returns the sum of non-missing arguments, whereas the '+' operator returns a missing value if any of the arguments are missing.
+
+7. Suppose you have a product ID in which last 4 characters refers to a product
+category, write a SAS program to pull product category information.
+
+data example;
+productID = "AB123ZX253";
+run;
+
+data example;
+set example;
+referenceid = substr(productID,length(productID)-3,4);
+run;
+
+8. Write a SAS program to include or exclude specific variables in a data set?
+
+%LET large=a b c d e f g h i j k;
+
+%LET exclude=c d h k;
+
+%let final=%sysfunc(compress(&large, %sysfunc(compress(&exclude.))));
+
+%put final=&final;
+
+run;
+
+9. How to print observations 5 through 10 from a data set?
+
+/*create dataset*/
+data my_data;
+    input team $ position $ points assists;
+    datalines;
+A Guard 14 4
+A Guard 22 6
+A Guard 24 9
+A Forward 13 8
+A Forward 13 9
+A Guard 10 5
+B Guard 24 4
+B Guard 22 6
+B Forward 34 2
+B Forward 15 5
+run;
+
+/*print entire dataset*/
+proc print data=my_data;
+run;
+
+/*print entire dataset*/
+proc print data=my_data(obs=5);
+run;
+
+10. What are the default statistics that PROC MEANS produce?
+
+The default statistics produced by the MEANS procedure are n, mean, minimum, maximum, and... median. range. standard deviation. standard error of the mean.
+
+11. Write a SAS program using IF THEN ELSE in PROC SQL?
+
+data class;
+set sashelp.class;
+
+Weightkg=weight*0.453592;
+
+heightm = height*2.54/100;
+
+bmi= weightkg/ (heightm*heightm);
+
+if bmi<=18 then status='Healthy weight';
+else if 18<bmi<=21 then status='Overweight';
+else if bmi> 21 then status='Obese';
+
+run;
+
+proc print data=class;
+run;
